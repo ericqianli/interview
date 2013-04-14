@@ -9,8 +9,14 @@ public:
     
     double find(int A[], int m, int B[], int n, int ir) // ir: increasing rank
     {
-        if (m==1 and n==1)
-            return (A[0] < B[0]) ? A[0] : B[0];
+        if (m==0)
+            return B[ir];
+        if (n ==0)
+            return A[ir];
+        if (ir == 0)
+            return (A[0] < B[0) ? A[0] : B[0];
+        if (ir == m+n-1)
+            return (A[m] < B[n]) ? B[n] : A[m];
         int am = A[(m-1)/2];
         int bm = B[(n-1)/2];
         if (bm < am)
@@ -22,16 +28,16 @@ public:
             }
             else
             {
-                int AA[] = Arrays.copyOfRange(A, 0, (m-1)/2+1);
-                return find(AA, (m-1)/2+1), B, n, ir);
+                int AA[] = Arrays.copyOfRange(A, 0, (m-1)/2);
+                return find(AA, (m-1)/2), B, n, ir);
             }
         }
         else
         {
             if ( ir <= (m+n-1)/2)
             {
-                int BB[] = Arrays.copyOfRange(B, 0, (n-1)/2+1);
-                return find(A, m, BB, (n-1)/2+1, ir);
+                int BB[] = Arrays.copyOfRange(B, 0, (n-1)/2);
+                return find(A, m, BB, (n-1)/2, ir);
             }
             else
             {
