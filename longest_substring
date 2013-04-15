@@ -1,0 +1,25 @@
+import java.util.HashMap;
+
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        
+        HashMap<Character, Integer> loc = new HashMap<Character, Integer>();
+        
+        int start = 0;
+        int mlen = 0;
+        
+        for (int i=0; i<s.length(); i++)
+        {
+            if (loc.keySet().contains(s.charAt(i)))
+                if (loc.get(s.charAt(i))>=start)
+                    start = loc.get(s.charAt(i)) + 1;
+
+            loc.put(s.charAt(i), i);
+            
+            if (i-start+1 > mlen)
+                mlen = i-start+1;
+        }
+        
+        return mlen;
+    }
+}
