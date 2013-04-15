@@ -1,3 +1,4 @@
+
 class Solution {
 public:
     double findMedianSortedArrays(int A[], int m, int B[], int n)
@@ -7,6 +8,14 @@ public:
         return find(A, m, B, n, (m+n+1)/2);
     }
     
+    int[] subarray(int A[], s, e)
+    {
+        int[] B = new int[e-s];
+        for (int i=s; i<e; i++)
+            B[i-s] = A[i];
+        return B;
+    }
+    
     double find(int A[], int m, int B[], int n, int ir) // ir: increasing rank
     {
         if (m==0)
@@ -14,7 +23,7 @@ public:
         if (n ==0)
             return A[ir];
         if (ir == 0)
-            return (A[0] < B[0) ? A[0] : B[0];
+            return (A[0] < B[0]) ? A[0] : B[0];
         if (ir == m+n-1)
             return (A[m] < B[n]) ? B[n] : A[m];
         int am = A[(m-1)/2];
@@ -23,12 +32,12 @@ public:
         {
             if (ir >= (m+n-1)/2)
             {
-                int BB[] = Arrays.copyOfRange(B, (n-1)/2, n)   
+                int[] BB = subarray(B, (n-1)/2, n)   
                 return find(A, m , B, n-(n-1)/2, ir-(n-1)/2);
             }
             else
             {
-                int AA[] = Arrays.copyOfRange(A, 0, (m-1)/2);
+                int[] AA = subarray(A, 0, (m-1)/2);
                 return find(AA, (m-1)/2), B, n, ir);
             }
         }
@@ -36,12 +45,12 @@ public:
         {
             if ( ir <= (m+n-1)/2)
             {
-                int BB[] = Arrays.copyOfRange(B, 0, (n-1)/2);
+                int[] BB = subarray(B, 0, (n-1)/2);
                 return find(A, m, BB, (n-1)/2, ir);
             }
             else
             {
-                int AA[] = Arrays.copyOfRange(A, (m-1)/2, m);
+                int[] AA = subarray(A, (m-1)/2, m);
                 return find(AA, m-(m-1)/2, B, n, ir-(m-1)/2);
             }
             
