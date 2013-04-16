@@ -1,0 +1,56 @@
+import java.util.PriorityQueue;
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode mergeKLists(ArrayList<ListNode> lists) {
+        
+        if (lists.isEmpty())
+            return null;
+        
+        Comparator<ListNode> comp = new Comparator<ListNode>()
+        {
+            public int compare(ListNode n1, ListNode n2)
+            {
+                if (n1 == null || n2 == null)
+                    return 0;
+                return n1.val - n2.val;
+            }
+        };
+        
+        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(lists.size(), comp);
+        
+        for (ListNode ln : lists)
+        {
+            if (ln != null)
+                heap.add(ln);
+        }
+        
+        ListNode head = null;
+        ListNode pre = null;
+        while (!heap.isEmpty())
+        {
+            ListNode ln = heap.poll();
+            if (ln.next != null)
+                heap.add(ln.next);
+                
+            ListNode n = new ListNode(ln.val);
+            if (pre == null)
+                head = n;
+            else
+                pre.next = n;
+            pre = n;
+        }
+        
+        return head;
+        
+    }
+}
