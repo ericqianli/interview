@@ -1,0 +1,61 @@
+public class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        
+        if (k==1)
+            return head;
+        
+        ListNode p1 = head;
+        ListNode pre = null;
+        
+        while(hasK(p1, k))
+        {
+            ListNode tail = null;
+            for (int i=0; i<k-1; i++)
+            {
+                tail = getL(p1, k-1);
+                ListNode pretail = getL(p1, k-2);
+                pretail.next = tail.next;
+                
+                
+                if (pre != null)
+                {
+                    tail.next = pre.next;
+                    pre.next = tail;
+                }
+                else
+                {
+                    tail.next = head;
+                    head = tail;
+                }
+                
+                if (i==0)
+                    p1 = tail;
+
+                pre = tail;
+            }
+            pre = tail.next;
+            p1 = pre.next;
+        }
+        return head;
+    }
+    
+    ListNode getL(ListNode h, int l)
+    {
+        for (int i=0; i<l; i++)
+        {
+            h = h.next;
+        }
+        return h;
+    }
+    
+    boolean hasK(ListNode h, int k)
+    {
+        for (int i=0; i<k; i++)
+        {
+            if (h == null)
+                return false;
+            h = h.next;
+        }
+        return true;
+    }
+}
