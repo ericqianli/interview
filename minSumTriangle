@@ -1,0 +1,38 @@
+public class Solution {
+    public int minimumTotal(ArrayList<ArrayList<Integer>> triangle) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        
+        
+        if (triangle.size() == 0)
+            return 0;
+        if (triangle.size() == 1)
+            return triangle.get(0).get(0);
+            
+        ArrayList<Integer> sum = new ArrayList<Integer>();
+        sum.add(triangle.get(0).get(0));
+        
+        for (int i=1; i<triangle.size(); i++)
+        {
+            ArrayList<Integer> level = triangle.get(i);
+            ArrayList<Integer> nsum = new ArrayList<Integer>();
+            
+            nsum.add(sum.get(0)+level.get(0));
+            for (int j=1; j<level.size()-1; j++)
+                nsum.add(Math.min(sum.get(j-1), sum.get(j)) + level.get(j));
+
+            nsum.add(sum.get(i-1)+level.get(i));
+            sum = nsum;
+        }
+        
+        int min = sum.get(0);
+        for (int i=1; i<sum.size(); i++)
+        {
+            if (sum.get(i)<min)
+                min = sum.get(i);
+        }
+        return min;
+     
+    }
+    
+}
