@@ -1,0 +1,33 @@
+public class Solution {
+    
+    public ArrayList<String> ret = new ArrayList<String>();
+    
+    public ArrayList<String> generateParenthesis(int n) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+        type("", n, n);
+        return ret;
+        
+    }
+    
+    public void type (String s, int left, int right)
+    {
+        if (left == 0)
+        {
+            for (int i=0; i<right; i++)
+                s += ")";
+            ret.add(s);
+            return;
+        }
+        
+        if (left == right)
+        {
+            type(s+"(", left-1, right);
+            return;
+        }
+        
+        type(s+"(", left-1, right);
+        type(s+")", left, right-1);
+        return;
+    }
+}
