@@ -1,0 +1,21 @@
+public class Solution {
+    public int reverse(int x) {
+
+        boolean p = true;
+        if (x < 0)
+        {
+            p = false;
+            x = -x;
+        }
+        
+        int y = 0;
+        while (x > 0)
+        {
+            y *= 10;
+            y += x % 10;
+            x /= 10;
+        }
+        
+        return p ? y : -y;
+    }
+}
