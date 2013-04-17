@@ -1,0 +1,71 @@
+public class Solution {
+    public int maxProfit(int[] prices) {
+        
+        if (prices.length <= 1)
+            return 0;
+        
+        if (prices.length == 2)
+            return Math.max(0, prices[1]-prices[0]);
+        
+        
+        int[] ret = maxP(prices);
+        int buy = ret[0];
+        int sell = ret[1];
+        int p = ret[2];
+        if (sell == -1)
+            return 0;
+        
+        
+        int deltap = 0;
+        ret = maxP(Arrays.copyOfRange(prices, 0, buy+1));
+        int p1 = ret[2];
+        ret = maxP(Arrays.copyOfRange(prices, sell, prices.length));
+        int p2 = ret[2];
+        deltap = Math.max(p1, p2);
+        
+        int p3 = minP(Arrays.copyOfRange(prices, buy, sell+1));
+        deltap = Math.max(deltap, p3);
+        
+        return p + deltap;
+        
+    }
+    
+    public int minP(int[] prices)
+    {
+        int p = 0;
+        int m = -1;
+
+        for (int i=0; i<prices.length; i++)
+        {
+            if (m == -1 || prices[i] > m)
+                m = prices[i];
+            if (m - prices[i] > p)
+                p = m - prices[i];
+        }
+        return p;
+    }
+    
+    public int[] maxP(int[] prices)
+    {
+        int p = 0;
+        int m = -1;
+        int mi = -1;
+        int buy = -1;
+        int sell = -1;
+        for (int i=0; i<prices.length; i++)
+        {
+            if (m == -1 || prices[i] < m)
+            {
+                mi = i;
+                m = prices[i];
+            }
+            if (prices[i] - m > p)
+            {
+                buy = mi;
+                sell = i;
+                p = prices[i] - m;
+            }
+        }
+        return new int[]{buy, sell, p};
+    }
+}
