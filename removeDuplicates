@@ -1,0 +1,32 @@
+public class Solution {
+    public int removeDuplicates(int[] A) {
+        
+        int len = A.length;
+        
+        while(true)
+        {
+            int m = search(A, len);
+            if (m==-1)
+                break;
+            A = remove(A, m, len);
+            len --;
+        }
+        
+        return len;
+    }
+    
+    public int search(int[] A, int l)
+    {
+        for (int i=0; i<l-1; i++)
+            if (A[i]==A[i+1])
+                return i;
+        return -1;
+    }
+    
+    public int[] remove(int[] A, int m, int l)
+    {
+        for (int i=m; i<l-1; i++)
+            A[i] = A[i+1];
+        return A;
+    }
+}
