@@ -2,24 +2,24 @@ public class Solution {
     public int searchInsert(int[] A, int target)
     {
         
-        return search(A, target, 0);
+        return search(A, target);
         
     }
     
-    public int search(int[] A, int t, int offset)
+    public int search(int[] A, int t)
     {
         if (A.length == 0)
-            return offset;
+            return 0;
         if (A.length == 1)
-            return (t <= A[0]) ? offset : offset+1;
+            return (t <= A[0]) ? 0 : 1;
         
         int mi = (A.length-1)/2;
         int m = A[mi];
         if (t == m)
-            return offset + mi;
+            return mi;
         if (t < m) 
-            return search(Arrays.copyOfRange(A, 0, mi+1), t, offset);
+            return search(Arrays.copyOfRange(A, 0, mi+1), t);
         else
-            return search(Arrays.copyOfRange(A, mi+1, A.length), t, offset+mi+1);
+            return mi + 1 + search(Arrays.copyOfRange(A, mi+1, A.length), t);
     }
 }
