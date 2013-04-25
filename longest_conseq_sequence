@@ -1,0 +1,71 @@
+public class Solution {
+    
+    class Group
+    {
+        public int left, right;
+        
+        public Group(int n)
+        {
+            left = n;
+            right = n;
+        }
+        
+        public int size()
+        {
+            return right - left + 1;
+        }
+    }
+    
+    public int longestConsecutive(int[] num)
+    {
+        
+        HashMap<Integer, Group> map = new HashMap<Integer, Group>();
+        
+        int s = 0;
+        for (int k=0; k<num.length; k++)
+        {
+            int i = num[k];
+            if (map.get(i) == null)
+            {
+                if (map.get(i-1) == null && map.get(i+1) == null)
+                {
+                    map.put(i, new Group(i));
+                    if (s <= 1)
+                        s = 1;
+                }
+                if (map.get(i-1) != null && map.get(i+1) == null)
+                {
+                    Group left = map.get(i-1);
+                    left.right = i;
+                    map.put(i,left);
+                    if (left.size()>s)
+                        s = left.size();
+                }
+                if (map.get(i-1) == null && map.get(i+1) != null)
+                {
+                    Group right = map.get(i+1);
+                    right.left = i;
+                    map.put(i,right);
+                    if (right.size()>s)
+                        s = right.size();
+                }
+                if (map.get(i-1) != null && map.get(i+1) != null)
+                {
+                    Group left = map.get(i-1);
+                    Group right = map.get(i+1);
+                    left.right = right.right;
+                    map.put(i,left);
+                    for (int j=right.left; j<=right.right; j++)
+                        map.put(j, left);
+                    
+                    if (left.size()>s)
+                        s = left.size();
+                }
+            }
+            
+        }
+        
+        return s;
+        
+    }
+}
