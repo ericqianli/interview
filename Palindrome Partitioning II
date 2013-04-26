@@ -1,0 +1,61 @@
+public class Solution {
+    
+    
+    
+    public int minCut(String s) {
+        
+        if (s == null || s.length() <= 1)
+            return 0;
+        
+        return min(s)-1;
+        
+    }
+    
+    
+    public int min(String s)
+    {
+        
+        if (s == null || s.length() == 0)
+            return 0;
+            
+        if (s.length() == 1)
+            return 1;
+            
+        int[] map = new int[s.length()+1];
+        
+        
+        for (int i=s.length()-1; i>=0; i--)
+        {
+            int m = -1;
+            
+            for (int j = i; j<s.length(); j++)
+            {
+                
+                if (valid(s.substring(i, j+1)))
+                {
+                    int newm = map[j+1] + 1;
+                    if (m==-1 || newm < m)
+                        m = newm;
+                }
+                
+            }
+            
+            map[i] = m;
+            
+        }
+        return map[0];
+    }
+    
+    public boolean valid(String s)
+    {
+        if (s == null || s.length() <= 1)
+            return true;
+        
+        for (int i=0; i<s.length()/2; i++)
+        {
+            if (s.charAt(i) != s.charAt(s.length()-1-i))
+                return false;
+        }
+        return true;
+    }
+}
