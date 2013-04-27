@@ -1,0 +1,134 @@
+public class Solution {
+    
+    public class Node
+    {
+        String s;
+        int dist = -1;
+        ArrayList<Node> prev = new ArrayList<Node>();
+        
+        ArrayList<Node> neighbors = new ArrayList<Node>();
+        
+        Node(String word)
+        {
+            s = word;
+        }
+    }
+    
+    
+    public ArrayList<ArrayList<String>> ret;
+    
+    public ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
+        
+        // construct graphp
+        dict.add(start);
+        dict.add(end);
+        
+        //HashMap<String, Node> nodes = new HashMap<String, Node>();
+        HashMap<String, Node> map = new HashMap<String, Node>();
+        
+        for (String w : dict)
+        {
+            map.put(w, new Node(w));
+        }
+        for (String w1 : dict)
+        {
+            for (String w2 : dict)
+            {
+                if (dif(w1, w2) == 1)
+                    map.get(w1).neighbors.add(map.get(w2));
+            }
+        }
+        
+        // find path
+        // start search from the start
+        
+        Comparator<Node> comparator = new Comparator<Node>(){
+            public int compare(Node n1, Node n2)
+            {
+                if (n2.dist==-1)
+                    return -1;
+                if (n1.dist==-1)
+                    return 1;
+                return n1.dist - n2.dist;
+            }
+        };
+        
+        ArrayList<Node> visited = new ArrayList<Node>();
+        PriorityQueue<Node> unvisited = new PriorityQueue<Node>(dict.size(), comparator);
+        unvisited.addAll(map.values());
+        
+        Node en = map.get(end);
+        en.dist = 0;
+        unvisited.remove(en);
+        unvisited.add(en);
+
+        
+        while (!unvisited.isEmpty())
+        {
+            Node c = unvisited.poll();
+            visited.add(c);
+            if (c.s.equals(start))
+                break;
+                
+            for (Node n : c.neighbors)
+            {
+                if (visited.contains(n))
+                    continue;
+                if (n.dist == -1 || c.dist + 1 <= n.dist)
+                {
+                    n.dist = c.dist + 1;
+                    if (c.dist + 1 != n.dist)
+                        n.prev.clear();
+                    n.prev.add(c);
+                    
+                    unvisited.remove(n);
+                    unvisited.add(n);
+                }
+            }
+           
+        }
+        
+        ret = new ArrayList<ArrayList<String>>();
+        
+        Node sn = map.get(start);
+        if (sn.prev.isEmpty())
+            return ret;
+        
+        popresult(sn, new ArrayList<String>());
+        
+        return ret;
+    }
+    
+    public void popresult(Node node, ArrayList<String> path)
+    {
+        if (node == null)
+            return;
+            
+        path.add(node.s);
+        
+        if(node.prev.isEmpty())
+        {
+            ret.add(path);
+            return;
+        }
+        
+        for (Node n : node.prev)
+        {
+            ArrayList<String> p = new ArrayList<String>();
+            p.addAll(path);
+            popresult(n, p);
+        }
+    }
+
+    
+    public int dif(String w1, String w2)
+    {
+        int d = 0;
+        for (int i=0; i<w1.length(); i++)
+        {
+            if (w1.charAt(i) != w2.charAt(i))
+                d++;
+        }
+        return d;
+    }
+}
