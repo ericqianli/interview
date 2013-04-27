@@ -1,0 +1,55 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    int max = -1;
+    boolean tag = false;
+    
+    public int maxPathSum(TreeNode root) {
+        
+        tag = false;
+        max = -1;
+        
+        if (root == null)
+            return 0;
+            
+        int m = traverse(root);
+        
+        return Math.max(max, m);
+        
+    }
+    
+    public int traverse(TreeNode node)
+    {
+        int left = 0;
+        int right = 0;
+        
+        if (node.left != null)
+            left = traverse(node.left);
+        if (node.right != null)
+            right = traverse(node.right);
+        
+        int pathmax = left + right + node.val;
+        
+        
+        int childmax = Math.max(left, right);
+        int parentmax = Math.max(0, childmax) + node.val;
+        
+        int mm = Math.max(pathmax, parentmax);
+        
+         if (!tag || mm > max)
+        {
+            max = mm;
+            tag = true;
+        }
+
+        return parentmax;
+    }
+}
