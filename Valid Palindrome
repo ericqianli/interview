@@ -8,14 +8,11 @@ public class Solution {
         if (s.isEmpty())
             return true;
         
-        boolean[][] ispal = new boolean[s.length()][s.length()];
-        
-        for (int i=s.length()-1; i>=0; i--)
-            for (int j=i; j<s.length(); j++)
-            {
-                if ((s.charAt(i)==s.charAt(j)) && (j<=i+1 || ispal[i+1][j-1]))
-                    ispal[i][j] = true;
-            }
-        return ispal[0][s.length()-1];
+        for (int i=0; i<s.length()/2; i++)
+        {
+            if (s.charAt(i) != s.charAt(s.length()-1-i))
+                return false;
+        }
+        return true;
     }
 }
