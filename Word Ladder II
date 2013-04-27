@@ -19,7 +19,7 @@ public class Solution {
     
     public ArrayList<ArrayList<String>> findLadders(String start, String end, HashSet<String> dict) {
         
-        // construct graphp
+        // construct graph
         dict.add(start);
         dict.add(end);
         
