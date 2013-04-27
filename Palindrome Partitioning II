@@ -1,7 +1,5 @@
 public class Solution {
     
-    
-    
     public int minCut(String s) {
         
         if (s == null || s.length() <= 1)
@@ -10,7 +8,6 @@ public class Solution {
         return min(s)-1;
         
     }
-    
     
     public int min(String s)
     {
@@ -22,40 +19,24 @@ public class Solution {
             return 1;
             
         int[] map = new int[s.length()+1];
+        boolean[][] ispal = new boolean[s.length()][s.length()];
         
         
         for (int i=s.length()-1; i>=0; i--)
         {
-            int m = -1;
+            map[i] = s.length();
             
             for (int j = i; j<s.length(); j++)
             {
-                
-                if (valid(s.substring(i, j+1)))
+                if (s.charAt(i)==s.charAt(j) && (j<=i+1 || ispal[i+1][j-1]))
                 {
-                    int newm = map[j+1] + 1;
-                    if (m==-1 || newm < m)
-                        m = newm;
+                    ispal[i][j] = true;
+                    map[i] = Math.min(map[i], map[j+1]+1);
                 }
                 
             }
             
-            map[i] = m;
-            
         }
         return map[0];
-    }
-    
-    public boolean valid(String s)
-    {
-        if (s == null || s.length() <= 1)
-            return true;
-        
-        for (int i=0; i<s.length()/2; i++)
-        {
-            if (s.charAt(i) != s.charAt(s.length()-1-i))
-                return false;
-        }
-        return true;
     }
 }
