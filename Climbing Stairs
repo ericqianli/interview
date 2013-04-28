@@ -1,0 +1,14 @@
+public class Solution {
+    public int climbStairs(int n)
+    {
+        if (n<=1)
+            return 1;
+            
+        //return climbStairs(n-2) + climbStairs(n-1);
+        
+        double phi = (1+Math.sqrt(5))/2;
+        double appx = Math.pow(phi, n+1)/Math.sqrt(5);
+        long ret = Math.round(appx);
+        return (int) ret;
+    }
+}
