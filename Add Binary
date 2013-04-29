@@ -1,6 +1,10 @@
 public class Solution {
     public String addBinary(String a, String b) {
         
+        //int m = Integer.parseInt(a, 2);
+        //int n = Integer.parseInt(b, 2);
+        
+        //return Integer.toBinaryString(m+n);
         
                 int l1 = a.length();
         int l2 = b.length();
