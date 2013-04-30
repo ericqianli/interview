@@ -1,0 +1,30 @@
+public class Solution {
+    public void merge(int A[], int m, int B[], int n) {
+        
+        if (n <= 0)
+            return;
+        
+        int i=0, j=0;
+        
+        while (j<n)
+        {
+            if (i>=m+j)
+            {
+                for (int l=j; l<n; l++)
+                    A[i++] = B[l];
+                break;
+            }
+                
+            if (A[i] <= B[j])
+                i++;
+            else
+            {
+                for (int l = m+j-1; l>=i; l--)
+                    A[l+1] = A[l];
+                A[i] = B[j];
+                j++;
+            }
+        }
+        
+    }
+}
