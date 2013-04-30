@@ -1,0 +1,59 @@
+public class Solution {
+    
+    public class Par
+    {
+        public char c;
+        public int len;
+        
+        Par(char c)
+        {
+            this.c = c;
+            len = 0;
+        }
+    }
+    
+    public int longestValidParentheses(String s) {
+        
+        if (s.isEmpty())
+            return 0;
+        
+        Stack<Par> stack = new Stack<Par>();
+        int head = 0;
+        int max = 0;
+        
+        for (int i=0; i<s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (stack.isEmpty() || c=='(')
+            {
+                stack.push(new Par(c));
+            }
+            else
+            {
+                char sc = stack.peek().c;
+                if (sc == ')')
+                    stack.push(new Par(c));
+                else
+                {
+                    
+                    int pre = stack.pop().len;
+                    if (stack.isEmpty())
+                    {
+                        head += pre + 1;
+                        if (head > max)
+                            max = head;
+                    }
+                    else
+                    {
+                        stack.peek().len  += pre + 1;
+                        if (stack.peek().len > max)
+                            max = stack.peek().len;
+                    }  
+                }
+            }
+        }
+        
+        return max*2;
+        
+    }
+}
