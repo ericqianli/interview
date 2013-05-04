@@ -1,0 +1,47 @@
+public class Solution {
+    public int maximalRectangle(char[][] matrix) {
+        
+        if (matrix == null || matrix.length==0 || matrix[0].length == 0)
+            return 0;
+            
+        int m = 0;
+        
+        int[] lvl = new int[matrix[0].length];
+        
+        for (int i=0; i<matrix.length; i++)
+        {
+            for (int j = 0; j<matrix[i].length; j++)
+            {
+                if (matrix[i][j] == '0')
+                    lvl[j] = 0;
+                else
+                {
+                    if (i == 0)
+                        lvl[j] = 1;
+                    else
+                        lvl[j] ++;
+                }
+            }
+            m = Math.max(m, findmax(lvl));
+        }
+        
+        return m;
+    }
+    
+    public int findmax(int[] lvl)
+    {
+        int m = 0;
+        
+        for (int i=0; i<lvl.length; i++)
+        {
+            int minh = lvl[i];
+            for (int j = i; j<lvl.length; j++)
+            {
+                minh = Math.min(minh, lvl[j]);
+                m = Math.max(m, minh * (j-i+1));
+            }
+        }
+        
+        return m;
+    }
+}
