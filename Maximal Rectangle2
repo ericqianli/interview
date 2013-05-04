@@ -45,7 +45,7 @@ public class Solution {
                 if (minh == -1 || lvl[j] < minh)
                     minh = lvl[j];
                 int l = (stack.isEmpty()) ? (-1) : stack.peek();
-                m = Math.max(m, minh * (i-l));
+                m = Math.max(m, minh * (i-l-1));
             }
 
             stack.push(i);
