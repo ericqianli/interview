@@ -1,0 +1,31 @@
+public class Solution {
+    public String getPermutation(int n, int k) {
+        
+        LinkedList<Integer> q = new LinkedList<Integer>();
+        for (int i=1; i<=n; i++)
+            q.add(i);
+            
+        String ret = "";
+        k--;
+        
+        for (int i=0; i<n; i++)
+        {
+            int b = base(n-i-1);
+            int group = k/b;
+            k %= b;
+            
+            ret += String.valueOf(q.get(group));
+            q.remove(group);
+        }
+        
+        return ret;
+        
+    }
+    
+    public int base(int i)
+    {
+        if (i <= 1)
+            return 1;
+        return i * base(i-1);
+    }
+}
