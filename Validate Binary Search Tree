@@ -1,0 +1,33 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isValidBST(TreeNode root) {
+        
+        if (root == null)
+            return true;
+            
+        return valid(root, -1, true, -1, true); 
+    }
+    
+    public boolean valid(TreeNode root, int left, boolean lefti, int right, boolean righti)
+    {
+        if (root == null)
+            return true;
+            
+        if (!lefti && root.val <= left)
+            return false;
+        
+        if (!righti && root.val >= right)
+            return false;
+            
+        return valid(root.left, left, lefti, root.val, false)
+            && valid(root.right, root.val, false, right, righti);
+    }
+}
