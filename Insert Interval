@@ -1,0 +1,66 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    
+    //boolean sfound, efound;
+    
+    public ArrayList<Interval> insert(ArrayList<Interval> intervals, Interval newInterval) {
+        
+        //sfound = efound = false;
+
+        int sindex = search(intervals, 0, intervals.size()-1, newInterval.start);
+        int eindex = search(intervals, 0, intervals.size()-1, newInterval.end);
+        
+        
+        if (sindex != -1 && newInterval.start <= intervals.get(sindex).end)
+            newInterval.start = intervals.get(sindex).start;
+        else
+            sindex ++;
+        if (eindex != -1 && newInterval.end <= intervals.get(eindex).end)
+            newInterval.end = intervals.get(eindex).end;
+        
+        
+        if (eindex != -1)
+        {
+            if (sindex != eindex || intervals.get(sindex).end >= newInterval.start)
+            {   
+                int s = (sindex == -1) ? 0 : sindex;
+                intervals.subList(s, eindex+1).clear();
+            }
+            else
+                sindex ++;
+        }
+        
+        if (sindex == -1)
+            sindex ++;
+        intervals.add(sindex, newInterval);
+        
+        return intervals;
+        
+    }
+    
+    public int search(ArrayList<Interval> intervals, int start, int end, int target)
+    {
+        if (start > end)
+            return end;
+        
+        int m = (start + end)/2;
+        
+        Interval mid = intervals.get(m);
+        
+        if (target == mid.start)
+            return m;
+            
+        if (target < mid.start)
+            return search(intervals, start, m-1, target);
+        else
+            return search(intervals, m+1, end, target);  
+    }
+}
