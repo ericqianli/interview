@@ -1,0 +1,21 @@
+public class Solution {
+    public int numDistinct(String S, String T) {
+        
+        if (S.isEmpty())
+            return (T.isEmpty()) ? 1 : 0;
+        
+        if (T.isEmpty())
+            return 1;
+            
+        char h = T.charAt(0);
+        String remainder = T.substring(1, T.length());
+        int count = 0;
+        for (int i=0; i<S.length(); i++)
+        {
+            if (S.charAt(i) == h)
+                count += numDistinct(S.substring(i+1, S.length()), remainder);
+        }
+        
+        return count;
+    }
+}
