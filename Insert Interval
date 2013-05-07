@@ -27,19 +27,9 @@ public class Solution {
             newInterval.end = intervals.get(eindex).end;
         
         
-        if (eindex != -1)
-        {
-            if (sindex != eindex || intervals.get(sindex).end >= newInterval.start)
-            {   
-                int s = (sindex == -1) ? 0 : sindex;
-                intervals.subList(s, eindex+1).clear();
-            }
-            else
-                sindex ++;
-        }
+        if (sindex <= eindex)
+            intervals.subList(sindex, eindex+1).clear();
         
-        if (sindex == -1)
-            sindex ++;
         intervals.add(sindex, newInterval);
         
         return intervals;
