@@ -1,0 +1,34 @@
+public class Solution {
+    
+    ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+    
+    public ArrayList<ArrayList<Integer>> subsets(int[] S) {
+        
+        ret.clear();
+        
+        if (S.length == 0)
+            return ret;
+            
+        Arrays.sort(S);
+        
+        generate(S, new ArrayList<Integer>(), 0);
+        
+        return ret;
+        
+    }
+    
+    public void generate(int[] s, ArrayList<Integer> seq, int i)
+    {
+        if (i == s.length)
+        {
+            ArrayList<Integer> r = new ArrayList<Integer>(seq);
+            ret.add(r);
+            return;
+        }
+        
+        generate(s, seq, i+1);
+        seq.add(s[i]);
+        generate(s, seq, i+1);
+        seq.remove(seq.size()-1);
+    }
+}
