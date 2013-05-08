@@ -1,0 +1,65 @@
+public class Solution {
+    
+    boolean found = false;
+    
+    public int[] searchRange(int[] A, int target) {
+        
+        found = false;
+        
+        if (A.length == 0)
+            return new int[]{-1, -1};
+            
+        int start = -1;
+        int end = -1;
+        
+        start = search_left(A, 0, A.length-1, target);
+        end = search_right(A, 0, A.length-1, target);
+        
+        if (start == -1 || end == A.length || !found)
+            return new int[]{-1, -1};
+        
+        return new int[]{start, end};
+        
+    }
+    
+    public int search_left(int[] A, int s, int e, int t)
+    {
+        if (s == e)
+        {
+            if (t == A[s])
+                found = true;
+            if (t < A[s])
+                return s-1;
+            else
+                return s;
+        }
+        
+        int m = (s+e)/2;
+        
+        if (t <= A[m])
+            return search_left(A, s, m, t);
+        else
+            return search_left(A, m+1, e, t);
+    }
+    
+    public int search_right(int[] A, int s, int e, int t)
+    {
+        if (s == e)
+        {
+            if (t == A[s])
+                found = true;
+            if (t > A[s])
+                return s+1;
+            else
+                return s;
+        }
+        
+        int m = (s+e+1)/2;
+        
+        if (t >= A[m])
+            return search_right(A, m, e, t);
+        else
+            return search_right(A, s, m-1, t);
+            
+    }
+}
