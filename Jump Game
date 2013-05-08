@@ -1,0 +1,25 @@
+public class Solution {
+    public boolean canJump(int[] A) {
+        
+        if (A.length == 0)
+            return false;
+        
+        int cf = 0;
+        boolean[] ret = new boolean[A.length];
+        ret[A.length-1] = true;
+        
+        for (int i=A.length-2; i>=0; i--)
+        {
+            if (A[i] > cf)
+            {
+                ret[i] = true;
+                cf = 0;
+            }
+            else
+                cf ++;
+        }
+        
+        return ret[0];
+        
+    }
+}
