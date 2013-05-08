@@ -1,0 +1,58 @@
+public class Solution {
+    public String minWindow(String S, String T) {
+        
+        if (S.isEmpty() || T.isEmpty())
+            return "";
+            
+        HashSet<Character> pool = new HashSet<Character>();
+        
+        ArrayList<Character> tocover = new ArrayList<Character>();
+        
+        for (int i=0; i<T.length(); i++)
+        {
+            pool.add(T.charAt(i));
+            tocover.add(T.charAt(i));
+        }
+            
+        ArrayList<Character> cur = new ArrayList<Character>();
+        ArrayList<Integer> pos = new ArrayList<Integer>();
+            
+        int len = -1;
+        
+        int start=0, end=-1;
+        
+        for (int i=0; i<S.length(); i++)
+        {
+            char c = S.charAt(i);
+            if (pool.contains(c))
+            {
+                if (!tocover.contains((Character) c))
+                {
+                    int p = cur.indexOf((Character) c);
+                    cur.remove(p);
+                    pos.remove(p);
+                }
+                
+                tocover.remove((Character) c);
+                
+                cur.add((Character) c);
+                pos.add(i);
+                
+                
+                if (tocover.isEmpty())
+                {
+                    int nlen = i- pos.get(0) + 1;
+                    if (len == -1 || nlen < len)
+                    {
+                        len = nlen;
+                        start = pos.get(0);
+                        end = i;
+                    }
+                }
+                
+            }
+        }
+        
+        return S.substring(start, end+1);
+    }
+}
