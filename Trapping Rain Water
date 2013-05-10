@@ -1,0 +1,42 @@
+public class Solution {
+    public int trap(int[] A) {
+        
+        if (A.length <= 1)
+            return 0;
+            
+        int total = 0;
+        
+        int max = A[0];
+        int maxi = 0;
+        int bowl = 0;
+        for (int i=1; i<A.length; i++)
+        {
+            if (A[i] >= max)
+            {
+                max = A[i];
+                maxi = i;
+                total += bowl;
+                bowl = 0;
+            }
+            else
+                bowl += (max - A[i]);
+        }
+        
+        max = A[A.length-1];
+        bowl = 0;
+        for (int i=A.length-2; i>=maxi; i--)
+        {
+            if (A[i] >= max)
+            {
+                max = A[i];
+                total += bowl;
+                bowl = 0;
+            }
+            else
+                bowl += (max - A[i]);
+        }
+        
+        return total;
+        
+    }
+}
