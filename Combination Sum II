@@ -1,0 +1,45 @@
+public class Solution {
+    
+    HashSet<ArrayList<Integer>> ret = new HashSet<ArrayList<Integer>>();
+    
+    public ArrayList<ArrayList<Integer>> combinationSum2(int[] candidates, int target) {
+        
+        ret.clear();
+        
+        if (candidates.length == 0)
+            return new ArrayList<ArrayList<Integer>>(ret);
+            
+        Arrays.sort(candidates);
+        
+        findcombo(candidates, new ArrayList<Integer>(), 0, target);
+        
+        return new ArrayList<ArrayList<Integer>>(ret);
+        
+    }
+    
+    public void findcombo(int[] cand, ArrayList<Integer> list, int index, int target)
+    {
+        if (target == 0)
+        {
+            ArrayList<Integer> r = new ArrayList<Integer>(list);
+            ret.add(r);
+            return;
+        }
+        
+        if (index >= cand.length || target < cand[index])
+            return;
+        
+        for (int i=index; i<cand.length; i++)
+        {
+            if (cand[i] <= target)
+            {
+                list.add(cand[i]);
+                
+                findcombo(cand, list, i+1, target-cand[i]);
+                
+                list.remove(list.size()-1);
+            }
+        }
+        
+    }
+}
