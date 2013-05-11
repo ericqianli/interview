@@ -1,0 +1,80 @@
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+    boolean ltr = true;
+    
+    public ArrayList<ArrayList<Integer>> zigzagLevelOrder(TreeNode root) {
+        
+        ret.clear();
+        
+        if (root == null)
+            return ret;
+            
+        Stack<TreeNode> cur = new Stack<TreeNode>();
+        Stack<TreeNode> next = new Stack<TreeNode>();
+        
+        next.push(root);
+        ltr = false;
+        ArrayList<Integer> first = new ArrayList<Integer>();
+        first.add(root.val);
+        ret.add(first);
+        
+        while(!next.isEmpty())
+        {
+            Stack<TreeNode> temp = cur;
+            cur = next;
+            next = temp;
+            next.clear();
+            
+            ArrayList<Integer> r = new ArrayList<Integer>();
+            
+            while(!cur.isEmpty())
+            {
+                TreeNode node = cur.pop();
+                
+                if (ltr)
+                {
+                    if (node.left != null)
+                    {
+                        next.push(node.left);
+                        r.add(node.left.val);
+                    }
+                    if (node.right != null)
+                    {
+                        next.push(node.right);
+                        r.add(node.right.val);
+                    }
+                }
+                else
+                {
+                    if (node.right != null)
+                    {
+                        next.push(node.right);
+                        r.add(node.right.val);
+                    }
+                    if (node.left != null)
+                    {
+                        next.push(node.left);
+                        r.add(node.left.val);
+                    }
+                }
+            }
+            ltr = !ltr;
+            
+            if (!r.isEmpty())
+                ret.add(r);
+        }
+        
+        return ret;
+        
+    }
+}
