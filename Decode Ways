@@ -1,0 +1,46 @@
+public class Solution {
+    public int numDecodings(String s) {
+        
+        if (s.length() == 0)
+            return 0;
+            
+        int[] number = new int[s.length()];
+        for (int i=0; i<s.length(); i++)
+            number[i] = s.charAt(i) - '0';
+        
+        int[] ret = new int[s.length()+1];
+        
+        ret[0] = 1;
+        
+        if (number[0] == 0)
+            return 0;
+        ret[1] = 1;
+        
+        for (int i=2; i<=s.length(); i++)
+        {
+            if (number[i-1] == 0)
+            {
+                if (number[i-2] != 1 && number[i-2] != 2)
+                    return 0;
+                ret[i] = ret[i-2];
+            }
+            else if (number[i-1] > 6)
+            {
+                if (number[i-2] == 1)
+                    ret[i] = ret[i-2] + ret[i-1];
+                else
+                    ret[i] = ret[i-1];
+            }
+            else
+            {
+                if (number[i-2] == 1 || number[i-2] == 2)
+                    ret[i] = ret[i-2] + ret[i-1];
+                else
+                    ret[i] = ret[i-1];
+            }
+            
+        } 
+        
+        return ret[s.length()];
+    }
+}
