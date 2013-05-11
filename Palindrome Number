@@ -1,0 +1,31 @@
+public class Solution {
+    public boolean isPalindrome(int x) {
+        
+        if (x < 0)
+            return false;
+        
+        if (x < 10)
+            return true;
+            
+        int d = 0;
+        int y = x;
+        int b = 1;
+        while (y >= 10)
+        {
+            y /= 10;
+            d ++;
+            b *= 10;
+        }
+  
+        
+        while(x != 0 && b != 1)
+        {
+            if (x%10 != x/b)
+                return false;
+            x = x%b/10;
+            b /= 100;
+        }
+        
+        return true;
+    }
+}
