@@ -1,0 +1,51 @@
+public class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        
+        if (matrix.length == 0 || matrix[0].length == 0)
+            return false;
+        
+        int[] col = new int[matrix.length];
+        for (int i=0; i<matrix.length; i++)
+            col[i] = matrix[i][0];
+            
+        int row = search(col, 0, matrix.length-1, target);
+        
+        if (row == -1)
+            return false;
+            
+        return searchBoolean(matrix[row], 0, matrix[row].length-1, target);
+        
+    }
+    
+    public int search(int[] num, int s, int e, int t)
+    {
+        if (s > e)
+            return e;
+            
+        int m = (s + e)/2;
+        if (t == num[m])
+            return m;
+        
+        if (t < num[m])
+            return search(num, s, m-1, t);
+        else
+            return search(num, m+1, e, t);
+    }
+    
+    public boolean searchBoolean(int[] num, int s, int e, int t)
+    {
+        if (s > e)
+            return false;
+            
+        int m = (s + e)/2;
+        if (t == num[m])
+            return true;
+        
+        if (t < num[m])
+            return searchBoolean(num, s, m-1, t);
+        else
+            return searchBoolean(num, m+1, e, t);
+    }
+    
+    
+}
