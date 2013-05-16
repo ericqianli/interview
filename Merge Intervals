@@ -1,0 +1,60 @@
+/**
+ * Definition for an interval.
+ * public class Interval {
+ *     int start;
+ *     int end;
+ *     Interval() { start = 0; end = 0; }
+ *     Interval(int s, int e) { start = s; end = e; }
+ * }
+ */
+public class Solution {
+    public ArrayList<Interval> merge(ArrayList<Interval> intervals) {
+        
+        if (intervals.isEmpty())
+            return intervals;
+        
+        Comparator<Interval> comparator = new Comparator<Interval>(){
+            
+            public int compare(Interval v1, Interval v2)
+            {
+                if (v1==null && v2==null)
+                    return 0;
+                if (v1 == null)
+                    return 1;
+                if (v2 == null)
+                    return -1;
+                return v1.start - v2.start;
+            }
+        };
+        
+        PriorityQueue<Interval> q = new PriorityQueue<Interval>(intervals.size(),comparator);
+        
+        for (Interval v : intervals)
+            q.add(v);
+            
+            
+        ArrayList<Interval> ret = new ArrayList<Interval>();
+        
+        while (!q.isEmpty())
+        {
+            Interval v1 = q.poll();
+            
+            while (!q.isEmpty())
+            {
+                Interval v2 = q.peek();
+                if (v2.start <= v1.end)
+                {
+                    if (v2.end >= v1.end)
+                        v1.end = v2.end;
+                    q.poll();
+                }
+                else break;
+            }
+            
+            ret.add(v1);
+        }
+        
+        return ret;
+        
+    }
+}
