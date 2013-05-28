@@ -1,0 +1,60 @@
+public class Solution {
+    public String minWindow(String S, String T) {
+        
+        if (S.length() == 0 || T.length() == 0)
+            return "";
+        
+        int count = 0;
+        HashMap<Character, Integer> inputmap = new HashMap<Character, Integer>();
+        HashMap<Character, Integer> countmap = new HashMap<Character, Integer>();
+        
+        for (int i=0; i<T.length(); i++)
+        {
+            if (inputmap.containsKey(T.charAt(i)))
+                inputmap.put(T.charAt(i), inputmap.get(T.charAt(i))+1);
+            else
+                inputmap.put(T.charAt(i), 1);
+            countmap.put(T.charAt(i), 0);
+        }
+        
+        
+        int s = 0;
+        int mlen = -1;
+        int ms = 0;
+        int me = 0;
+        
+        for (int i=0; i<S.length(); i++)
+        {
+            char c = S.charAt(i);
+            if (inputmap.containsKey(c))
+            {
+                if (countmap.get(c) < inputmap.get(c))
+                    count ++;
+                    
+                countmap.put(c, countmap.get(c)+1);
+            }
+            
+            if (count == T.length())
+            {
+                char fc = S.charAt(s);
+                while (s < i && (!inputmap.containsKey(fc) || countmap.get(fc) > inputmap.get(fc)))
+                {
+                    if (inputmap.containsKey(fc))
+                        countmap.put(fc, countmap.get(fc)-1);
+                    fc = S.charAt(++s);
+                }
+                
+                if (mlen == -1 || i-s+1 < mlen)
+                {
+                    mlen = i-s+1;
+                    ms = s;
+                    me = i;
+                }
+            }
+            
+            
+        }
+        return (count == T.length()) ? S.substring(ms, me+1) : "";
+        
+    }
+}
