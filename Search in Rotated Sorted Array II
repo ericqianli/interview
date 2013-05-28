@@ -1,0 +1,56 @@
+public class Solution {
+    public boolean search(int[] A, int target) {
+        
+        if (A.length == 0)
+            return false;
+            
+        int offset = find(A, 0, A.length-1) + 1;
+        
+        int ret = search(A, A.length, 0, A.length-1, target, offset);
+
+        return (ret != -1);
+    }
+    
+    public int find(int[] num, int s, int e)
+    {
+        if (s >= e)
+            return -1;
+            
+        int m = (s + e)/2;
+        
+        if (m == num.length-1)
+            return -1;
+        else if (num[m] > num[m+1])
+            return m;
+
+        int r1 = -1;
+        int r2 = -1;
+        if (num[s] >= num[m])
+            r1 = find(num, s, m);
+        if (num[m+1] >= num[e])
+            r2 = find(num, m+1, e);
+        
+        if (r1 == -1)
+            return r2;
+        if (r2 == -1)
+            return r1;
+            
+        return -1;
+    }
+    
+    public int search(int[] num, int l, int s, int e, int t, int o)
+    {
+        if (s > e)
+            return -1;
+            
+        int m = (s + e)/2;
+        
+        if (num[(m+o)%l] == t)
+            return m;
+            
+        if (t < num[(m+o)%l])
+            return search(num, l, s, m-1, t, o);
+        else
+            return search(num, l, m+1, e, t, o);
+    }
+}
