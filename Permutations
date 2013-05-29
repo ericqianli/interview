@@ -1,0 +1,63 @@
+public class Solution {
+    
+    ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+    
+    public ArrayList<ArrayList<Integer>> permute(int[] num) {
+        
+        ret.clear();
+        
+        if (num.length == 0)
+            return ret;
+            
+        HashMap<Integer, Integer> cand = new HashMap<Integer, Integer>();
+        for (int i=0; i<num.length; i++)
+        {
+            if (cand.containsKey(num[i]))
+                cand.put(num[i], cand.get(num[i])+1);
+            else
+                cand.put(num[i], 1);
+        }
+        
+        generate(new ArrayList<Integer>(), cand);
+        
+        return ret;
+        
+    }
+    
+    public void generate(ArrayList<Integer> list, HashMap<Integer, Integer> cand)
+    {
+        if (isempty(cand))
+        {
+            ArrayList<Integer> r = new ArrayList<Integer>(list);
+            ret.add(r);
+            return;
+        }
+        
+        for (int i : cand.keySet())
+        {
+            if (cand.get(i) >= 1)
+            {
+                int temp = cand.get(i);
+                cand.put(i, temp-1);
+                
+                list.add(i);
+                
+                generate(list, cand);
+                
+                list.remove(list.size()-1);
+                
+                cand.put(i, temp);
+            }
+        }
+    }
+    
+    public boolean isempty(HashMap<Integer, Integer> map)
+    {
+        for (int i : map.keySet())
+        {
+            if (map.get(i) > 0)
+                return false;
+        }
+        return true;
+    }
+}
