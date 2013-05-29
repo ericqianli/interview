@@ -1,0 +1,59 @@
+public class Solution {
+    
+    ArrayList<String[]> ret = new ArrayList<String[]>();
+    
+    public ArrayList<String[]> solveNQueens(int n) {
+        
+        ret.clear();
+        if (n <= 0)
+            return ret;
+            
+        int[] pos = new int[n];
+        
+        place(pos, 0, n);
+        
+        return ret;
+        
+    }
+    
+    void place(int[] pos, int lvl, int n)
+    {
+        if (lvl == n)
+        {
+            print(pos, lvl, n);
+            return;
+        }
+        
+        for (int i=0; i<n; i++)
+        {
+            pos[lvl] = i;
+            if (valid(pos, lvl))
+                place(pos, lvl+1, n);
+        }
+    }
+    
+    boolean valid(int[] pos, int lvl)
+    {
+        for (int i=0; i<lvl; i++)
+        {
+            if (pos[i] == pos[lvl] || Math.abs(pos[i]-pos[lvl])==lvl-i)
+                return false;
+        }
+        return true;
+    }
+    
+    void print(int[] pos, int lvl, int n)
+    {
+        String[] r= new String[n];
+        for (int i=0; i<n; i++)
+        {
+            String s = "";
+            for (int j=0; j<n; j++)
+            {
+                s += (pos[i] == j) ? "Q" : ".";
+            }
+            r[i] = s;
+        }
+        ret.add(r);
+    }
+}
