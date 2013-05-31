@@ -1,0 +1,63 @@
+
+
+public class Solution {
+    public int[][] generateMatrix(int n) {
+        
+        if (n==0)
+        {
+            return new int[][]{};
+        }
+            
+        int[][] ret = new int[n][n];
+        
+        int d = 0; // 0: right, 1: down, 2: left, 3: up
+        int x = 0;
+        int y = 0;
+        
+        int i = 1;
+        
+        while(x>=0 && x<n && y>=0 && y<n && ret[x][y] == 0)
+        {
+            // asign value
+            ret[x][y] = i++;
+            // choose direction
+            switch(d)
+            {
+            case 0:
+                if (y == n-1 || ret[x][y+1] != 0)
+                    d = 1;
+                break;
+            case 1:
+                if (x == n-1 || ret[x+1][y] != 0)
+                    d = 2;
+                break;
+            case 2:
+                if (y == 0 || ret[x][y-1] != 0)
+                    d = 3;
+                break;
+            case 3:
+                if (x == 0 || ret[x-1][y] != 0)
+                    d = 0;
+            }
+            // increment pos
+            switch(d)
+            {
+            case 0:
+                y++;
+                break;
+            case 1:
+                x++;
+                break;
+            case 2:
+                y--;
+                break;
+            case 3:
+                x--;
+                break;
+            }
+        }
+        
+        return ret;
+        
+    }
+}
