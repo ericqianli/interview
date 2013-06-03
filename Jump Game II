@@ -1,0 +1,28 @@
+public class Solution {
+    public int jump(int[] A) {
+        
+        if (A.length <= 1)
+            return 0;
+            
+        int cur = 0;
+        int next = 0;
+        int step = 0;
+        
+        for (int i=0; i<A.length-1; i++)
+        {
+            if (i + A[i] > next)
+                next = i + A[i];
+            if (i == cur)
+            {
+                step ++;
+                cur = next;
+            }
+            if (i == cur)
+                return 0;
+            if (cur >= A.length)
+                break;
+        }
+        
+        return step;
+    }
+}
