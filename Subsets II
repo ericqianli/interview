@@ -1,0 +1,63 @@
+public class Solution {
+    
+    ArrayList<ArrayList<Integer>> ret = new ArrayList<ArrayList<Integer>>();
+    
+    public ArrayList<ArrayList<Integer>> subsetsWithDup(int[] num) {
+        
+        ret.clear();
+        
+        if (num.length == 0)
+            return ret;
+            
+        Arrays.sort(num);
+        
+        HashMap<Integer, Integer> cand = new HashMap<Integer, Integer>();
+        ArrayList<Integer> order = new ArrayList<Integer>();
+        
+        for (int i=0; i<num.length; i++)
+        {
+            if (cand.containsKey(num[i]))
+            {
+                cand.put(num[i], cand.get(num[i])+1);
+            }
+            else
+                cand.put(num[i], 1);
+                
+            if (!order.contains(num[i]))
+                order.add(num[i]);
+        }
+        
+        
+        generate(new ArrayList<Integer>(), cand, order);
+        
+        return ret;
+    }
+    
+    public void generate(ArrayList<Integer> list, HashMap<Integer, Integer> cand, ArrayList<Integer> order)
+    {
+        if (cand.isEmpty())
+        {
+            ArrayList<Integer> r = new ArrayList<Integer>(list);
+            ret.add(r);
+            return;
+        }
+        
+        int k = order.get(0);
+        int count = cand.get(k);
+        
+        cand.remove(k);
+        order.remove(0);
+        for (int i=0; i<=count; i++)
+        {
+            for (int j=0; j<i; j++)
+                list.add(k);
+                
+            generate(list, cand, order);
+                
+            for (int j=0; j<i; j++)
+                list.remove(list.size()-1);
+        }
+        order.add(0, k);
+        cand.put(k, count);
+    }
+}
