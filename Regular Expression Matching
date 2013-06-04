@@ -1,0 +1,68 @@
+public class Solution {
+    public boolean isMatch(String s, String p) {
+        
+        if (p.length() == 0)
+            return (s.length()==0);
+            
+        String pp = "";
+        boolean[] star = new boolean[p.length()];
+        int len = 0;
+        
+        for (int i=0; i<p.length(); i++)
+        {
+            char c = p.charAt(i);
+            if (c != '*')
+            {
+                pp += String.valueOf(c);
+                len ++;
+            }
+            else
+            {
+                star[len-1] = true;
+            }
+        }
+        
+        boolean[][] ret = new boolean[s.length()+1][len+1];
+        ret[0][0] = true;
+        
+        for (int i=1; i<=len; i++)
+        {
+            if (star[i-1])
+                ret[0][i] = true;
+            else break;
+        }
+        
+        for (int i=1; i<=s.length(); i++)
+        {
+            for (int j=1; j<=len; j++)
+            {
+                char sc = s.charAt(i-1);
+                char pc = pp.charAt(j-1);
+                if (star[j-1])
+                {
+                    if (ret[i][j-1])
+                        ret[i][j] = true;
+                    else if (pc == '.')
+                    {
+                        if (ret[i-1][j])
+                            ret[i][j] = true; 
+                    }
+                    else
+                    {
+                        if ((sc == pc) && ret[i-1][j])
+                            ret[i][j] = true;
+                    }
+                }
+                else    // not star
+                {
+                    if (pc == '.')
+                        ret[i][j] = ret[i-1][j-1];
+                    else
+                        ret[i][j] = (sc == pc) && ret[i-1][j-1];
+                }
+            }
+        }
+        
+        return ret[s.length()][len];
+    }
+}
