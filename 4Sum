@@ -1,0 +1,74 @@
+public class Solution {
+    public ArrayList<ArrayList<Integer>> fourSum(int[] num, int target) {
+        
+        HashSet<ArrayList<Integer>> ret = new HashSet<ArrayList<Integer>>();
+        
+        if (num.length < 4)
+            return new ArrayList<ArrayList<Integer>>();
+        
+        HashMap<Integer, ArrayList<ArrayList<Integer>>> map = new HashMap<Integer, ArrayList<ArrayList<Integer>>>();
+        
+        for (int i=0; i<num.length; i++)
+        {
+            for (int j=i+1; j<num.length; j++)
+            {
+                int s = num[i] + num[j];
+                if (!map.containsKey(s))
+                {
+                    map.put(s, new ArrayList<ArrayList<Integer>>());
+                }
+                ArrayList<Integer> pair = new ArrayList<Integer>();
+                pair.add(i);
+                pair.add(j);
+                map.get(s).add(pair);
+            }
+        }
+        
+        for (int s : map.keySet())
+        {
+            if (map.containsKey(target-s))
+            {
+                ArrayList<ArrayList<Integer>> l1 = map.get(s);
+                ArrayList<ArrayList<Integer>> l2 = map.get(target-s);
+                
+                for (ArrayList<Integer> p1 : l1)
+                {
+                    for (ArrayList<Integer> p2 : l2)
+                    {
+                        if (p1 == p2)
+                            continue;
+                            
+                        HashSet<Integer> set = new HashSet<Integer>();
+                        set.add(p1.get(0));
+                        set.add(p1.get(1));
+                        set.add(p2.get(0));
+                        set.add(p2.get(1));
+                        
+                        if (set.size() < 4)
+                            continue;
+                        
+                        int[] temp = new int[4];
+                        temp[0] = num[p1.get(0)];
+                        temp[1] = num[p1.get(1)];
+                        temp[2] = num[p2.get(0)];
+                        temp[3] = num[p2.get(1)];
+                        Arrays.sort(temp);
+                            
+                        ArrayList<Integer> p = new ArrayList<Integer>();
+                        p.add(temp[0]);
+                        p.add(temp[1]);
+                        p.add(temp[2]);
+                        p.add(temp[3]);
+                        
+                        ret.add(p);
+                    }
+                }
+            }
+        }
+        
+        
+        return new ArrayList<ArrayList<Integer>>(ret);
+        
+        
+    }
+}
