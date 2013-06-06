@@ -1,0 +1,38 @@
+public class Solution {
+    public void sortColors(int[] A) {
+       
+        ArrayList<Integer> a1 = new ArrayList<Integer>();
+        ArrayList<Integer> a2 = new ArrayList<Integer>();
+        ArrayList<Integer> a3 = new ArrayList<Integer>();
+        
+        for (int i=0; i<A.length; i++)
+        {
+            if (A[i] == 0)
+                a1.add(0);
+            if (A[i] == 1)
+                a2.add(1);
+            if (A[i] == 2)
+                a3.add(2);
+        }
+        
+        for (int i=0; i<A.length; i++)
+        {
+            if (!a1.isEmpty())
+            {
+                A[i] = a1.remove(0);
+                continue;
+            }
+            if (!a2.isEmpty())
+            {
+                A[i] = a2.remove(0);
+                continue;
+            }
+            if (!a3.isEmpty())
+            {
+                A[i] = a3.remove(0);
+                continue;
+            }
+        }
+        
+    }
+}
