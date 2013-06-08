@@ -1,0 +1,88 @@
+public class Solution {
+    public ArrayList<String> fullJustify(String[] words, int L) {
+        
+        ArrayList<String> ret = new ArrayList<String>();
+        
+        if (words.length == 0 || L == 0)
+        {
+            ret.add("");
+            return ret;
+        }
+        
+        int l = 0;
+        
+        ArrayList<String> list = new ArrayList<String>();
+        
+        for (int i=0; i<words.length; i++)
+        {
+            int nextl = (l == 0) ? words[i].length() : l + 1 + words[i].length();
+            
+            if (nextl <= L)
+            {
+                list.add(words[i]);
+                l = nextl;
+            }
+            else
+            {
+                
+                int wlen = 0;
+                for (String w : list)
+                    wlen += w.length();
+                    
+                int tspace = L - wlen;
+                
+                
+                String s = "";
+                if (list.size() == 1)
+                {
+                    s = list.get(0);
+                    for (int j=0; j<tspace; j++)
+                        s += " ";
+                    ret.add(s);    
+                }
+                else
+                {
+                    
+                    int space = tspace / (list.size()-1);
+                    int adjust = tspace % (list.size()-1);
+                    
+                    s = list.get(0);
+                    
+                    for (int k=1; k<list.size(); k++)
+                    {
+                        if (k <= adjust)
+                            s += " ";
+                        
+                        for (int j=0; j<space; j++)
+                            s += " ";
+                    
+                        s += list.get(k);
+                    }
+                    
+                    ret.add(s);
+                    
+                }
+
+                i--;
+                l = 0;
+                list.clear();
+                
+            }
+            
+            
+            if (i == words.length-1)
+            {
+                String s = list.get(0);
+                for (int j=1; j<list.size(); j++)
+                    s += " " + list.get(j);
+                
+                for (int j=0; j<(L-l); j++)
+                    s += " ";
+                ret.add(s);
+            }
+        }
+        
+        return ret;
+        
+    }
+}
