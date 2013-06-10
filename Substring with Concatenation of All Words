@@ -1,0 +1,103 @@
+public class Solution {
+    public ArrayList<Integer> findSubstring(String S, String[] L) {
+        
+        
+        ArrayList<Integer> ret = new ArrayList<Integer>();
+        
+        if (S.length() == 0 || L.length == 0)
+            return ret;
+        
+        HashMap<String, Integer> need = new HashMap<String, Integer>();
+        
+        //ArrayList<String> keys = new ArrayList<String>();
+        
+        for (int i=0; i<L.length; i++)
+        {
+            String s = L[i];
+            if (need.containsKey(s))
+                need.put(s, need.get(s) + 1);
+            else
+                need.put(s, 1);
+                
+            //if (!keys.contains(s))
+            //    keys.add(s);
+        }
+        
+        int len = L[0].length();
+        
+        int[] pos = new int[S.length()];
+        for (int i=0; i<S.length(); i++)
+        {
+            pos[i] = -1;
+
+            for (int j=0; j<L.length; j++)
+            {
+                if (S.startsWith(L[j], i))
+                {
+                    pos[i] = j;
+                    break;
+                }
+            }
+
+        }
+        
+        for (int i=0; i<len; i++)
+        {
+            HashMap<String, Integer> found = new HashMap<String, Integer>();
+            
+            int size = 0;
+            int start = i;
+            
+            for (int j=i; j<S.length(); j+=len)
+            {
+                if (pos[j] != -1)
+                {
+                    String s = L[pos[j]];
+                    if (!found.containsKey(s))
+                    {
+                        found.put(s, 1);
+                        size ++;
+                    }
+                    else
+                    {
+                        if (found.get(s) == need.get(s))
+                        {
+                            String ss = L[pos[start]];
+                            while(!ss.equals(s))
+                            {
+                                found.put(ss, found.get(ss)-1);
+                                size --;
+                                start += len;
+                                ss = L[pos[start]];
+                            }
+                            
+                            start += len;
+                        }
+                        else
+                        {
+                            found.put(s, found.get(s) + 1);
+                            size ++;
+                        }
+                    }
+                    
+                    if (size == L.length)
+                    {
+                        ret.add(start);
+                        String ss = L[pos[start]];
+                        found.put(ss, found.get(ss)-1);
+                        size --;
+                        start += len;
+                    }
+                }
+                else
+                {
+                    start = j + len;
+                    size = 0;
+                    found.clear();
+                };
+            }
+        }
+        
+        return ret;
+    }
+}
